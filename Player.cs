@@ -41,7 +41,7 @@ public class Player : Spatial
         Translation = logicPos.LinearInterpolate(new Vector3(playerModel.nextTargetPos.x, 1.5f, playerModel.nextTargetPos.y), t);
 
 
-        for (int i = 1; i < playerModel.tail.Count - 1; i++)
+        for (int i = 1; i < playerModel.getTail().Count; i++)
         {
             var tailPos = calcPosTailPiece(i);
             tail[i].Translation = tailPos;
@@ -51,7 +51,7 @@ public class Player : Spatial
     //for every tail part the target is the one in front of it
     void onGrowTail(Vector2 pos)
     {
-        var tailPos = calcPosTailPiece(playerModel.tail.Count - 1);
+        var tailPos = calcPosTailPiece(playerModel.getTail().Count - 1);
 
         var tailScn = (PackedScene)GD.Load("res://TailPiece.tscn");
         var tailPiece = (Spatial)tailScn.Instance();
@@ -69,13 +69,15 @@ public class Player : Spatial
         var t = playerModel.tParam;
         Vector2 target;
 
+        var logicTail = playerModel.getTail();
+
         if (index == 0)
         {
             target = playerModel.logicPos;
         }
-        else if (playerModel.tail.Count > 2)
+        else if (logicTail.Count > 2)
         {
-            target = playerModel.tail[index - 1];
+            target = logicTail[index - 1];
         }
         else
         {
@@ -83,7 +85,7 @@ public class Player : Spatial
         }
 
 
-        Vector3 logicPos = new Vector3(playerModel.tail[index].x, 1.5f, playerModel.tail[index].y);
+        Vector3 logicPos = new Vector3(logicTail[index].x, 1.5f, logicTail[index].y);
 
         var tailPos = logicPos.LinearInterpolate(new Vector3(target.x, 1.5f, target.y), t);
 

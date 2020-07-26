@@ -15,7 +15,7 @@ public class PlayerLogic : Node
     //saves the next direction the snake will go
 
     [Signal]
-    public delegate void ChangedPosition(Vector2 newPos);
+    public delegate void ChangedPosition(Array<Vector2> positions);
 
     [Signal]
     public delegate void GrowTail(Vector2 tailEnd);
@@ -28,7 +28,7 @@ public class PlayerLogic : Node
     public Vector2 nextTargetPos = new Vector2(0, 0);
 
     //first is head; last is only used to remove edge cases; not actual object
-    public Array<Vector2> tail;
+    private Array<Vector2> tail;
 
     PlayerState state = PlayerState.Idle;
 
@@ -62,7 +62,7 @@ public class PlayerLogic : Node
     // set everything to the pos of successor
     void updateTail(Vector2 newHeadPos)
     {
-        tail[0] = newHeadPos;
+
         var oldTailPos = tail[tail.Count - 1];
 
         for (int i = tail.Count - 1; i > 0; i--)
@@ -70,7 +70,14 @@ public class PlayerLogic : Node
             tail[i] = tail[i - 1];
         }
 
-
+        tail[0] = newHeadPos;
+    }
+    //returns tail with first element being the head
+    public Array<Vector2> getTail()
+    {
+        var tailReal = tail.Duplicate();
+        tailReal.RemoveAt(tail.Count - 1);
+        return tailReal;
     }
 
 
@@ -102,8 +109,7 @@ public class PlayerLogic : Node
         state = PlayerState.Idle;
         updateTail(nextTargetPos);
         logicPos = nextTargetPos;
-        EmitSignal(nameof(ChangedPosition), logicPos);
-
+        EmitSignal(nameof(ChangedPosition), getTail());
     }
 
     public void EatApple(Vector2 pos)
@@ -111,8 +117,6 @@ public class PlayerLogic : Node
         //grow snake
         tail.Add(Vector2.NegOne);
         EmitSignal(nameof(GrowTail), tail[tail.Count - 2]);
-        GD.Print("old", tail[tail.Count - 2]);
-        GD.Print("last", tail);
     }
 
 
