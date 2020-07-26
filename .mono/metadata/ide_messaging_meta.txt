@@ -1,0 +1,2 @@
+﻿53020
+E:\Apps\scoop\apps\godot-mono\current\godot.exe

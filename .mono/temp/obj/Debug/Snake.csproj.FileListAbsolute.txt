@@ -1,0 +1,5 @@
+E:\Projects\Godot\TestGame\.mono\temp\obj\Debug\Snake.csprojAssemblyReference.cache
+E:\Projects\Godot\TestGame\.mono\temp\bin\Debug\Snake.dll
+E:\Projects\Godot\TestGame\.mono\temp\bin\Debug\Snake.pdb
+E:\Projects\Godot\TestGame\.mono\temp\obj\Debug\Snake.dll
+E:\Projects\Godot\TestGame\.mono\temp\obj\Debug\Snake.pdb
